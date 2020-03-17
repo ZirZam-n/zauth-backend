@@ -72,6 +72,24 @@ class EducationInfo(models.Model):
     )
 
 
+class Country(models.Model):
+    name = models.CharField(
+        blank=False,
+        null=False,
+    )
+
+
+class City(models.Model):
+    name = models.CharField(
+        blank=False,
+        null=False,
+    )
+    country = models.ForeignKey(
+        Country,
+        on_delete=models.CASCADE,
+    )
+
+
 class ZAuthUser(AbstractUser):
     phone = PhoneNumberField(
         blank=False,
@@ -97,4 +115,14 @@ class ZAuthUser(AbstractUser):
     education = models.OneToOneField(
         EducationInfo,
         on_delete=models.CASCADE,
+    )
+
+    city = models.ForeignKey(
+        City,
+        on_delete=models.SET_NULL,
+    )
+
+    avatar = models.ImageField(
+        null=True,
+        default=None,
     )
