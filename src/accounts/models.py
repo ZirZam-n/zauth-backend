@@ -14,6 +14,9 @@ class University(models.Model):
         max_length=50,
     )
 
+    def __str__(self):
+        return '{}'.format(self.name)
+
 
 class MajorField(models.Model):
     name = models.CharField(
@@ -21,6 +24,9 @@ class MajorField(models.Model):
         null=False,
         max_length=50,
     )
+
+    def __str__(self):
+        return '{}'.format(self.name)
 
 
 class Field(models.Model):
@@ -33,6 +39,9 @@ class Field(models.Model):
         MajorField,
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return '{}:{}'.format(self.major.name, self.minor_name)
 
 
 class EducationInfo(models.Model):
@@ -77,6 +86,9 @@ class EducationInfo(models.Model):
         )
     )
 
+    def __str__(self):
+        return '{}'.format(self.user.username)
+
 
 class Country(models.Model):
     name = models.CharField(
@@ -84,6 +96,9 @@ class Country(models.Model):
         null=False,
         max_length=50,
     )
+
+    def __str__(self):
+        return '{}'.format(self.name)
 
 
 class State(models.Model):
@@ -97,6 +112,9 @@ class State(models.Model):
         on_delete=models.CASCADE,
     )
 
+    def __str__(self):
+        return '{}:{}'.format(self.country.name, self.name)
+
 
 class City(models.Model):
     name = models.CharField(
@@ -108,6 +126,9 @@ class City(models.Model):
         State,
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return '{}:{}:{}'.format(self.state.country.name, self.state.name, self.name)
 
 
 class ZAuthUser(AbstractUser):
@@ -135,6 +156,7 @@ class ZAuthUser(AbstractUser):
         EducationInfo,
         on_delete=models.CASCADE,
         null=True,
+        related_name='user',
     )
 
     city = models.ForeignKey(
