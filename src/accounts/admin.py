@@ -1,5 +1,5 @@
 from django.contrib import admin
-from accounts.models import ZAuthUser, University, MajorField, Field, EducationInfo, Country, State, City
+from accounts.models import ZUser, University, MajorField, Field, EducationInfo, Country, State, City
 
 
 # Register your models here.
@@ -39,6 +39,6 @@ class CityAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(ZAuthUser)
-class ZAuthUserAdmin(admin.ModelAdmin):
+@admin.register(ZUser)
+class ZUserAdmin(admin.ModelAdmin):
     pass

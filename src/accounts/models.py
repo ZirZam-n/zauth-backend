@@ -131,7 +131,7 @@ class City(models.Model):
         return '{}:{}:{}'.format(self.state.country.name, self.state.name, self.name)
 
 
-class ZAuthUser(AbstractUser):
+class ZUser(AbstractUser):
     phone = PhoneNumberField(
         blank=False,
         null=True,
