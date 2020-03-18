@@ -4,13 +4,14 @@ from django.utils.translation import gettext as _
 from django.db import models
 
 # Create your models here.
-from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class University(models.Model):
     name = models.CharField(
         blank=False,
         null=False,
+        max_length=50,
     )
 
 
@@ -18,6 +19,7 @@ class MajorField(models.Model):
     name = models.CharField(
         blank=False,
         null=False,
+        max_length=50,
     )
 
 
@@ -25,6 +27,7 @@ class Field(models.Model):
     minor_name = models.CharField(
         blank=False,
         null=False,
+        max_length=50,
     )
     major = models.ForeignKey(
         MajorField,
@@ -36,11 +39,13 @@ class EducationInfo(models.Model):
     university = models.ForeignKey(
         University,
         on_delete=models.SET_NULL,
+        null=True,
     )
 
     field = models.ForeignKey(
         Field,
         on_delete=models.SET_NULL,
+        null=True,
     )
 
     entrance = models.IntegerField(
@@ -58,6 +63,7 @@ class EducationInfo(models.Model):
         null=True,
         default=None,
         unique=True,
+        max_length=15,
     )
 
     grade = models.CharField(
@@ -76,6 +82,19 @@ class Country(models.Model):
     name = models.CharField(
         blank=False,
         null=False,
+        max_length=50,
+    )
+
+
+class State(models.Model):
+    name = models.CharField(
+        blank=False,
+        null=False,
+        max_length=50,
+    )
+    country = models.ForeignKey(
+        Country,
+        on_delete=models.CASCADE,
     )
 
 
@@ -83,9 +102,10 @@ class City(models.Model):
     name = models.CharField(
         blank=False,
         null=False,
+        max_length=50,
     )
-    country = models.ForeignKey(
-        Country,
+    state = models.ForeignKey(
+        State,
         on_delete=models.CASCADE,
     )
 
@@ -104,7 +124,6 @@ class ZAuthUser(AbstractUser):
     )
     nat_code = models.CharField(
         validators=[nat_code_validator],
-        min_length=10,
         max_length=10,
         blank=False,
         null=True,
@@ -115,11 +134,13 @@ class ZAuthUser(AbstractUser):
     education = models.OneToOneField(
         EducationInfo,
         on_delete=models.CASCADE,
+        null=True,
     )
 
     city = models.ForeignKey(
         City,
         on_delete=models.SET_NULL,
+        null=True,
     )
 
     avatar = models.ImageField(
