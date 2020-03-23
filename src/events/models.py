@@ -1,7 +1,9 @@
 from django.db import models
 
-
 # Create your models here.
+from .utils import generate_random_string
+
+
 class Event(models.Model):
     title = models.CharField(
         max_length=100,
@@ -15,6 +17,7 @@ class Event(models.Model):
         null=False,
         blank=False,
         unique=True,
+        default=generate_random_string,
     )
 
     private_key = models.CharField(
@@ -22,4 +25,5 @@ class Event(models.Model):
         null=False,
         blank=False,
         unique=True,
+        default=generate_random_string,
     )
