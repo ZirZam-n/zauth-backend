@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'django_extensions',
     'accounts',
+    'events',
 ]
 
 MIDDLEWARE = [
