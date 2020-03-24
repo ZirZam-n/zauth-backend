@@ -1,7 +1,7 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 
-from accounts.models import Field, MajorField, City, Country, State
+from accounts.models import Field, MajorField, City, Country, State, University
 
 
 class CitySerializer(serializers.ModelSerializer):
@@ -43,6 +43,12 @@ class CitySerializer(serializers.ModelSerializer):
 
     def create(self, data):
         return self.get_related_object(data)
+
+
+class UniversitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = University
+        fields = ['name']
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
