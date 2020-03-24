@@ -68,9 +68,9 @@ class EducationInfo(models.Model):
     )
     edu_code = models.CharField(
         validators=[edu_code_validator],
-        blank=False,
-        null=True,
-        default=None,
+        blank=True,
+        null=False,
+        default='',
         unique=True,
         max_length=15,
     )
@@ -133,9 +133,9 @@ class City(models.Model):
 
 class ZUser(AbstractUser):
     phone = PhoneNumberField(
-        blank=False,
-        null=True,
-        default=None,
+        blank=True,
+        null=False,
+        default='',
         unique=True,
     )
 
@@ -146,15 +146,16 @@ class ZUser(AbstractUser):
     nat_code = models.CharField(
         validators=[nat_code_validator],
         max_length=10,
-        blank=False,
-        null=True,
-        default=None,
+        blank=True,
+        null=False,
+        default='',
         unique=True,
     )
 
     education = models.OneToOneField(
         EducationInfo,
         on_delete=models.CASCADE,
+        blank=True,
         null=True,
         related_name='user',
     )
@@ -163,9 +164,11 @@ class ZUser(AbstractUser):
         City,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
     )
 
     avatar = models.ImageField(
         null=True,
+        blank=True,
         default=None,
     )
