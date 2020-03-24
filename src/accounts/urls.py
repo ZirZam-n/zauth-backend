@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from rest_framework_simplejwt import views as jwt_views
 
-from accounts.views import FieldsListView, CityListView
+from accounts.views import FieldsListView, CityListView, UniversityListView
 
 urlpatterns = [
     path(
@@ -24,5 +24,10 @@ urlpatterns = [
         'city_list/',
         CityListView.as_view(),
         name='city_list'
+    ),
+    path(
+        'university_list/',
+        UniversityListView.as_view(),
+        name='university_list'
     ),
 ]
