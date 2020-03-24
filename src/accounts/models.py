@@ -12,6 +12,7 @@ class University(models.Model):
         blank=False,
         null=False,
         max_length=50,
+        unique=True,
     )
 
     def __str__(self):
