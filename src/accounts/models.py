@@ -50,16 +50,21 @@ class EducationInfo(models.Model):
         University,
         on_delete=models.SET_NULL,
         null=True,
+        blank=False,
+        default=None,
     )
 
     field = models.ForeignKey(
         Field,
         on_delete=models.SET_NULL,
         null=True,
+        blank=False,
+        default=None,
     )
 
     entrance = models.IntegerField(
         null=True,
+        blank=False,
         default=None,
     )
 
@@ -69,9 +74,9 @@ class EducationInfo(models.Model):
     )
     edu_code = models.CharField(
         validators=[edu_code_validator],
-        blank=True,
-        null=False,
-        default='',
+        blank=False,
+        null=True,
+        default=None,
         unique=True,
         max_length=15,
     )
@@ -84,7 +89,10 @@ class EducationInfo(models.Model):
             ('master', _('Master of science')),
             ('phd', _('Ph.D')),
             ('after', _('After Ph.D')),
-        )
+        ),
+        null=True,
+        blank=False,
+        default=None,
     )
 
     def __str__(self):
@@ -134,9 +142,9 @@ class City(models.Model):
 
 class ZUser(AbstractUser):
     phone = PhoneNumberField(
-        blank=True,
-        null=False,
-        default='',
+        blank=False,
+        null=True,
+        default=None,
         unique=True,
     )
 
@@ -147,29 +155,31 @@ class ZUser(AbstractUser):
     nat_code = models.CharField(
         validators=[nat_code_validator],
         max_length=10,
-        blank=True,
-        null=False,
-        default='',
+        blank=False,
+        null=True,
+        default=None,
         unique=True,
     )
 
     education = models.OneToOneField(
         EducationInfo,
-        on_delete=models.CASCADE,
-        blank=True,
+        on_delete=models.SET_NULL,
+        blank=False,
         null=True,
+        default=None,
         related_name='user',
     )
 
     city = models.ForeignKey(
         City,
         on_delete=models.SET_NULL,
+        blank=False,
         null=True,
-        blank=True,
+        default=None,
     )
 
     avatar = models.ImageField(
         null=True,
-        blank=True,
+        blank=False,
         default=None,
     )
