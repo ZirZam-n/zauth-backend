@@ -1,7 +1,7 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 
-from accounts.models import Field, MajorField, City, Country, State, University
+from accounts.models import Field, MajorField, City, Country, State, University, ZUser
 
 
 class CitySerializer(serializers.ModelSerializer):
@@ -52,7 +52,20 @@ class UniversitySerializer(serializers.ModelSerializer):
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    pass
+    password1 = serializers.CharField()
+    password2 = serializers.CharField()
+
+    class Meta:
+        model = ZUser
+        fields = ['username', 'email', 'password1', 'password2']
+
+    def validate(self, data):
+        if data.get('password1') != data.get('password2'):
+            raise ValueError('Passwords do not match.')
+        return data
+
+    def create(self, data):
+        pass
 
 
 class FieldSerializer(serializers.ModelSerializer):
