@@ -18,7 +18,7 @@ urlpatterns = [
     path(
         'field_list/',
         FieldsListView.as_view(),
-        name='fields_list'
+        name='field_list'
     ),
     path(
         'city_list/',
