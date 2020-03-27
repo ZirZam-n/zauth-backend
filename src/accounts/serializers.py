@@ -62,6 +62,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data.get('password1') != data.get('password2'):
             raise ValueError('Passwords do not match.')
+        data.pop('password1')
+        password = data.pop('password2')
+        data.set('password', make_password(password))
         return data
 
     def create(self, data):
