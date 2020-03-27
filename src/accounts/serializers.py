@@ -57,7 +57,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ZUser
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
 
     def validate(self, data):
         if data.get('password1') != data.get('password2'):
@@ -68,7 +68,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, data):
-        pass
+        return ZUser.objects.create(is_active=False, **data)
 
 
 class FieldSerializer(serializers.ModelSerializer):
