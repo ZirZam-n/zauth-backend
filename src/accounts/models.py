@@ -141,8 +141,10 @@ class City(models.Model):
 
 
 class ZUser(AbstractUser):
+    blank_to_null = ['phone', 'nat_code', 'education', 'city']
+
     phone = PhoneNumberField(
-        blank=False,
+        blank=True,
         null=True,
         default=None,
         unique=True,
@@ -155,7 +157,7 @@ class ZUser(AbstractUser):
     nat_code = models.CharField(
         validators=[nat_code_validator],
         max_length=10,
-        blank=False,
+        blank=True,
         null=True,
         default=None,
         unique=True,
@@ -164,7 +166,7 @@ class ZUser(AbstractUser):
     education = models.OneToOneField(
         EducationInfo,
         on_delete=models.SET_NULL,
-        blank=False,
+        blank=True,
         null=True,
         default=None,
         related_name='user',
@@ -173,13 +175,18 @@ class ZUser(AbstractUser):
     city = models.ForeignKey(
         City,
         on_delete=models.SET_NULL,
-        blank=False,
+        blank=True,
         null=True,
         default=None,
     )
 
     avatar = models.ImageField(
         null=True,
-        blank=False,
+        blank=True,
         default=None,
     )
+
+    def save(self, *args, **kwargs):
+        for field in ZUser.blank_to_null:
+            setattr(self, field, getattr(self, field) or None)
+        super(ZUser, self).save(*args, **kwargs)
