@@ -16,9 +16,9 @@ urlpatterns = [
         name='register',
     ),
     path(
-        'activate/',
+        'verify/',
         None,
-        name='activate_email',
+        name='verify_email',
     ),
     path(
         'change_password/',
