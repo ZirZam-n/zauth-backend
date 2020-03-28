@@ -9,7 +9,7 @@ from events.utils import generate_random_string
 
 
 class ZUser(AbstractUser):
-    blank_to_null = ['phone', 'nat_code', 'education', 'city']
+    blank_to_null = ['phone', 'nat_code', 'education', 'city', 'avatar']
 
     phone = PhoneNumberField(
         blank=True,
@@ -48,7 +48,11 @@ class ZUser(AbstractUser):
         default=None,
     )
 
-    avatar = models.ImageField()
+    avatar = models.ImageField(
+        blank=True,
+        null=True,
+        default=None,
+    )
 
     def setup_verification_token(self):
         self.is_active = False
@@ -57,7 +61,9 @@ class ZUser(AbstractUser):
         self.verification = EmailVerificationToken.objects.create(user=self)
 
     def send_activation_email(self):
-        pass
+        if not self.verification:
+            raise Exception('Must run setup_verification_token method first')
+        raise Exception('Not implemented yet')
 
     def save(self, *args, **kwargs):
         for field in ZUser.blank_to_null:
