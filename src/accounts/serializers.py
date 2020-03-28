@@ -52,8 +52,8 @@ class UniversitySerializer(serializers.ModelSerializer):
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    password1 = serializers.CharField()
-    password2 = serializers.CharField()
+    password1 = serializers.CharField(style={'input_type': 'password'})
+    password2 = serializers.CharField(style={'input_type': 'password'})
 
     class Meta:
         model = ZUser
@@ -64,7 +64,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise ValueError('Passwords do not match.')
         data.pop('password1')
         password = data.pop('password2')
-        data.set('password', make_password(password))
+        data['password'] = make_password(password)
         return data
 
     def create(self, data):
