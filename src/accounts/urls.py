@@ -4,6 +4,11 @@ from rest_framework_simplejwt import views as jwt_views
 
 from accounts.views import FieldsListView, CityListView, UniversityListView, RegisterUserView
 
+
+def temp_view(*args, **kwargs):
+    pass
+
+
 urlpatterns = [
     path(
         'login/',
@@ -17,22 +22,22 @@ urlpatterns = [
     ),
     path(
         'verify/',
-        None,
+        temp_view,
         name='verify_email',
     ),
     path(
         'change_password/',
-        None,
+        temp_view,
         name='change_password',
     ),
     path(
         'edu/',
-        None,
+        temp_view,
         name='edu_info',
     ),
     path(
         'profile',
-        None,
+        temp_view,
         name='profile',
     ),
     path(
