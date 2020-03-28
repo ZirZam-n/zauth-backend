@@ -1,0 +1,3 @@
+Open this link to verify your email at {{ site_name }}
+
+http://{{ site_domain }}/{% url 'verify' %}?token={{ token }}
