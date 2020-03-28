@@ -5,6 +5,7 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 from accounts.models import EducationInfo, City
+from events.utils import generate_random_string
 
 
 class ZUser(AbstractUser):
@@ -56,3 +57,19 @@ class ZUser(AbstractUser):
         for field in ZUser.blank_to_null:
             setattr(self, field, getattr(self, field) or None)
         super(ZUser, self).save(*args, **kwargs)
+
+
+class EmailVerificationToken(models.Model):
+    user = models.OneToOneField(
+        ZUser,
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+
+    token = models.CharField(
+        max_length=32,
+        null=False,
+        blank=False,
+        default=generate_random_string,
+    )
