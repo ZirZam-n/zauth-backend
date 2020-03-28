@@ -16,6 +16,7 @@ class RegisterUserView(GenericAPIView):
         if serializer.is_valid(raise_exception=True):
             try:
                 user = serializer.create(data=serializer.validated_data)
+                user.setup_verification_token()
                 user.send_activation_email()
                 return Response(
                     {

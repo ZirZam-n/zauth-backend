@@ -50,6 +50,12 @@ class ZUser(AbstractUser):
 
     avatar = models.ImageField()
 
+    def setup_verification_token(self):
+        self.is_active = False
+        if self.verification:
+            self.verification.delete()
+        self.verification = EmailVerificationToken.objects.create(user=self)
+
     def send_activation_email(self):
         pass
 
@@ -62,6 +68,7 @@ class ZUser(AbstractUser):
 class EmailVerificationToken(models.Model):
     user = models.OneToOneField(
         ZUser,
+        related_name='verification',
         null=False,
         blank=False,
         on_delete=models.CASCADE,
