@@ -1,5 +1,9 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.contrib.sites.models import Site
 from django.core import validators
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
@@ -59,11 +63,26 @@ class ZUser(AbstractUser):
         if self.verification:
             self.verification.delete()
         self.verification = EmailVerificationToken.objects.create(user=self)
+        self.save()
 
     def send_activation_email(self):
         if not self.verification:
             raise Exception('Must run setup_verification_token method first')
-        raise Exception('Not implemented yet')
+        site = Site.objects.get_current()
+        subject = 'Verify your email at {}'.format(site.display_name)
+        ctx = {
+            'site_domain': site.domain_name,
+            'site_name': site.display_name,
+            'token': self.verification.token,
+        }
+        text = render_to_string('accounts/mails/verify_email.txt', ctx)
+        msg = EmailMultiAlternatives(
+            subject,
+            text,
+            settings.EMAIL_SENDER,
+            [self.email],
+        )
+        msg.send()
 
     def save(self, *args, **kwargs):
         for field in ZUser.blank_to_null:
