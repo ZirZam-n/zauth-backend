@@ -186,6 +186,9 @@ class ZUser(AbstractUser):
         default=None,
     )
 
+    def send_activation_email(self):
+        pass
+
     def save(self, *args, **kwargs):
         for field in ZUser.blank_to_null:
             setattr(self, field, getattr(self, field) or None)
