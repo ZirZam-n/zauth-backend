@@ -2,13 +2,18 @@ from django.urls import path, include
 
 from rest_framework_simplejwt import views as jwt_views
 
-from accounts.views import FieldsListView, CityListView, UniversityListView
+from accounts.views import FieldsListView, CityListView, UniversityListView, RegisterUserView
 
 urlpatterns = [
     path(
         'login/',
         jwt_views.TokenObtainPairView.as_view(),
         name='token_obtain_pair'
+    ),
+    path(
+        'register/',
+        RegisterUserView.as_view(),
+        name='register',
     ),
     path(
         'refresh/',
