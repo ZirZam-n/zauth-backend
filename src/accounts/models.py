@@ -180,11 +180,7 @@ class ZUser(AbstractUser):
         default=None,
     )
 
-    avatar = models.ImageField(
-        null=True,
-        blank=True,
-        default=None,
-    )
+    avatar = models.ImageField()
 
     def send_activation_email(self):
         pass
